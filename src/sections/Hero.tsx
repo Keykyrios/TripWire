@@ -1,4 +1,5 @@
 import WebGLLiquid from "../vendor/webgl-liquid";
+import ParticleText from "../vendor/ParticleText";
 import { useTripwire } from "../lib/store";
 
 export default function Hero() {
@@ -39,7 +40,26 @@ export default function Hero() {
             room {room} / sync {status}
           </span>
         </div>
-        <h1 className="hero__title">Let them walk into the trap.</h1>
+        <div className="hero__particle">
+          <ParticleText
+            text="Let them walk into the trap."
+            color="#f2f0ea"
+            highlightColor="#e8452c"
+            particleSize={2.5}
+            density={4}
+            scatter={200}
+            gatherDuration={1800}
+            fontSize="clamp(2.2rem, 6vw, 5.5rem)"
+            fontWeight={800}
+            fontFamily="'Outfit', sans-serif"
+            intro="gather"
+            clickBurst={true}
+            pointerRepel={30}
+            repelRadius={100}
+            glow={true}
+            style={{ width: "100%", minHeight: "120px" }}
+          />
+        </div>
         <p className="hero__sub">
           Decoy files, fake credentials and monitored endpoints. Touch one and Tripwire alerts, rebuilds the path and writes the incident timeline.
         </p>

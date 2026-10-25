@@ -1,78 +1,71 @@
-# Tripwire: cyber deception platform
+# Tripwire
 
-Problem 03, Cybersecurity and Blockchain. Builds a simulated network with decoy files, fake credentials and
-monitored endpoints. Touching a decoy raises an alert, reconstructs the intruder's movement and writes an
-incident timeline.
+A simulated corporate network with decoy files, fake credentials and monitored endpoints. An attacker moves through the network — every touch on a decoy triggers alerts, and the system reconstructs the full intrusion path from the event log alone.
 
-## Run
+Built for the **Cybersecurity & Blockchain** track (Problem 03).
+
+## What it does
+
+You get dropped into a terminal as an attacker on `ws-114`. You can `ls`, `cat` files, `ssh` between hosts, `scan` the network. Some files are decoys. Some credentials are honeytokens. Touch one and Tripwire catches you.
+
+The defender side sees:
+- Live alerts with severity classification
+- Full attack route reconstruction on a network topology map
+- Credential lineage tracking (where a cred was leaked → where it was used)
+- Kill chain derivation
+- Auto-containment of compromised hosts
+- A downloadable incident report (Markdown + styled PDF)
+
+Everything syncs in real time via Firebase — open the same room on two browsers and one person attacks while the other watches the alerts roll in.
+
+## The blockchain angle
+
+Every event appended to the log gets a **SHA-256 hash** that chains to the previous event's hash. Change any field in any event and every hash after it breaks. The chain is visible, explorable and verifiable in the app.
+
+On top of that, the chain head is signed with **CRYSTALS-Dilithium** (ML-DSA-65, NIST FIPS 204) and key exchange between room participants uses **CRYSTALS-Kyber** (ML-KEM-768, NIST FIPS 203). All post-quantum, all running in the browser via `@noble/post-quantum`.
+
+| Layer | Algorithm | What it does |
+|---|---|---|
+| Integrity | SHA-256 hash chain | Tamper-evident event log |
+| Key exchange | ML-KEM-768 | Quantum-safe shared secret between analysts |
+| Signatures | ML-DSA-65 | Chain head signed — can't forge events |
+
+## Stack
+
+- React 19 + TypeScript
+- Vite
+- Firebase Realtime Database
+- `@noble/post-quantum` + `@noble/hashes`
+- jsPDF (client-side PDF generation)
+- Vanilla CSS (no component library)
+
+## Run locally
 
 ```bash
 npm install
-npm run dev        # http://localhost:5173
-npm run build      # type-check and production build
-npm test           # UI tests (jsdom) and engine tests: npm run test:engine
+npm run dev
 ```
 
-## Firebase
+The demo works without Firebase config — it falls back to local storage. To enable real-time sync, set your Firebase credentials in `.env.local`.
 
-`src/lib/firebase.ts` holds your web config. Events are written to Realtime Database at
-`tripwire/rooms/<ROOM>/events/<id>`. Open the same `?room=XXXX` link in two browsers and both see alerts live.
-If the database rules refuse writes the app keeps working from local storage and says so in the Report section.
-For the demo, allow read and write on `tripwire/` in the Firebase console rules.
-
-## Layout
+## Project structure
 
 ```
-src/lib        network model, detection and reconstruction engine, Firebase store, actions
-src/sections   Hero, Method, ConsoleBar, Topology, Terminal, Alerts, Incident, Decoys, Report
-src/components SideNav, Toasts
-src/styles     one stylesheet per section
-src/vendor     component source copied from React Bits and Componentry
-tests          jsdom UI tests;  scripts/engine-test.ts engine tests
+src/
+├── lib/
+│   ├── engine.ts      # derive() and reconstruct() — all state from events
+│   ├── crypto.ts      # SHA-256 chain, Kyber KEM, Dilithium DSA
+│   ├── network.ts     # hosts, edges, credentials, decoy files
+│   ├── store.tsx      # React context + Firebase sync
+│   ├── actions.ts     # terminal command interpreter
+│   ├── pdf.ts         # client-side PDF report generator
+│   └── types.ts       # shared types
+├── sections/          # each section of the single-page app
+└── vendor/            # third-party React components
 ```
 
-## Where each component is used
+## Demo credentials
 
-| Component | Job here |
-|---|---|
-| WebGLLiquid | Hero background |
-| ClickSpark | Spark on every click, whole app |
-| LineSidebar | Section navigation with scroll tracking |
-| PixelSwap | Method section, real file versus trap |
-| SquishSwitch | Auto-contain toggle, arm or silence a decoy |
-| BellToggle | Alert notifications, badge shows open alerts |
-| FuseButton | Isolate host and Reset exercise, both with an undo fuse |
-| CodeSlots | MFA code prompt on the bastion host |
-| SwipeRow | Alert triage: dismiss, acknowledge, escalate |
-| JellyRadio | Alert severity filter |
-| RubberSegment | Incident views: timeline, movement, narrative |
-| BranchedMenu | Asset tree of hosts and files |
-| FolderFloat | Decoy kit template picker |
-| GlideSelect | Target host picker |
-| Shredder | Retire a decoy by dragging it in |
-
-## How detection works
-
-Nothing is hard coded to a scenario. Every action appends an event to one log. `derive()` folds the log into
-state, `reconstruct()` folds it into the route, credential lineage, kill chain, risk score and narrative.
-
-- Opening a decoy file: high alert. If it planted a credential, that credential is tracked.
-- Using a honeytoken to log in or call a cloud API: critical alert.
-- Scanning a decoy host: medium alert. Copying out decoy data: critical alert.
-- Real files and real logins stay quiet.
-
-Simulated credentials for the demo: jdoe / Sunshine#22, MFA code 418203 (in a file on ws-114).
-
-## Post-quantum cryptography
-
-The audit trail is secured with NIST-standardised post-quantum algorithms (FIPS 203 / 204), running
-entirely in the browser via `@noble/post-quantum`.
-
-| Layer | Algorithm | Purpose |
-|---|---|---|
-| Integrity | SHA-256 hash chain | Each event is chained to the previous one. Changing any field breaks every hash after it, making the log tamper-evident like a blockchain. |
-| Key exchange | ML-KEM-768 (CRYSTALS-Kyber) | Quantum-safe key encapsulation. When two analysts share a room, the shared secret is established through Kyber — immune to Shor's algorithm. |
-| Signatures | ML-DSA-65 (CRYSTALS-Dilithium) | The chain head is signed with a lattice-based digital signature. Even a quantum computer cannot forge an event or rewrite history. |
-
-The Quantum section in the app shows live key generation, encapsulation, signing and verification
-with real benchmarks, hex dumps and chain exploration.
+- Username: `jdoe`, password: `Sunshine#22`
+- MFA code: `418203` (found in a file on `ws-114`)
+- Or just click **Run demo intrusion** and watch it play out.

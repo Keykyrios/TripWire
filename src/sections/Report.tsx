@@ -82,6 +82,7 @@ export default function Report() {
             <button className="btn btn--sm" onClick={copy} aria-label="Copy share link to clipboard">{copied ? "Link copied" : "Copy share link"}</button>
             <button className="btn btn--sm" onClick={() => download(`incident-${room}.md`, md, "text/markdown")} aria-label="Download incident report as Markdown">Download report (.md)</button>
             <button className="btn btn--sm" onClick={() => download(`events-${room}.json`, JSON.stringify(events, null, 2), "application/json")} aria-label="Download raw events as JSON">Download events (.json)</button>
+            <button className="btn btn--sm btn--primary" onClick={() => { import("../lib/pdf").then(m => m.generatePDF(d, r, room, events)).catch(() => alert("PDF generation failed")); }} aria-label="Download styled PDF report">Download PDF report</button>
           </div>
           <div className="report__reset">
             <FuseButton

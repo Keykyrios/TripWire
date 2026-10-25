@@ -1,5 +1,6 @@
 .hero { position: relative; min-height: 100dvh; display: flex; align-items: flex-end; overflow: hidden; background: var(--bg); }
 .hero__veil { position: absolute; inset: 0; background: rgba(10, 10, 10, 0.38); pointer-events: none; }
+.hero__particle { position: relative; z-index: 2; width: 100%; }
 .hero__content { position: relative; z-index: 2; width: 100%; max-width: 1240px; margin: 0 auto; padding: 28px 24px 72px calc(24px + var(--rail)); display: flex; flex-direction: column; gap: 28px; min-height: 100dvh; justify-content: flex-end; }
 .hero__strip { position: absolute; top: 28px; left: calc(24px + var(--rail)); right: 24px; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
 .brand { display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-display); font-weight: 800; letter-spacing: 0.06em; font-size: 15px; }
