@@ -1,0 +1,38 @@
+.topo { display: grid; grid-template-columns: minmax(0, 2.1fr) minmax(280px, 1fr); gap: 20px; align-items: start; }
+@media (max-width: 1080px) { .topo { grid-template-columns: minmax(0, 1fr); } }
+.topo__svg { width: 100%; height: auto; display: block; background: var(--bg); }
+.edge { stroke: var(--line-strong); stroke-width: 1.5; }
+.edge--cut { stroke: var(--dim); stroke-dasharray: 3 6; animation: none; opacity: 0.6; }
+@keyframes flow { to { stroke-dashoffset: -34; } }
+.node { cursor: pointer; }
+.node rect { fill: var(--surface); stroke: var(--line-strong); stroke-width: 1.5; transition: stroke 160ms ease, fill 160ms ease; }
+.node--decoy rect { stroke-dasharray: 5 4; }
+.node--route rect { stroke: var(--accent); }
+.node--sel rect { fill: var(--surface-2); stroke: var(--ink); stroke-dasharray: none; }
+.node--cut rect { fill: var(--bg); stroke: var(--dim); }
+.node:hover rect, .node:focus-visible rect { stroke: var(--ink); }
+.node:focus-visible { outline: none; }
+.node__id { font-family: var(--font-mono); font-size: 13px; font-weight: 700; fill: var(--ink); }
+.node__ip { font-family: var(--font-mono); font-size: 10.5px; fill: var(--muted); }
+.node--cut .node__ip { fill: var(--accent); }
+.node__badge { fill: var(--accent); stroke: none !important; }
+.node__badgeText { font-family: var(--font-mono); font-size: 11px; font-weight: 700; fill: var(--accent-ink); }
+.attacker rect { fill: var(--accent); stroke: none; }
+.attacker text { font-family: var(--font-mono); font-size: 10px; font-weight: 700; fill: var(--accent-ink); letter-spacing: 0.08em; }
+.attacker { animation: bob 1.4s ease-in-out infinite; }
+@keyframes bob { 50% { transform: translateY(-4px); } }
+.evicted rect { fill: var(--dim); stroke: none; }
+.evicted text { font-family: var(--font-mono); font-size: 10px; font-weight: 700; fill: var(--bg); letter-spacing: 0.08em; }
+.evicted { animation: evict-pulse 2s ease-in-out infinite; }
+@keyframes evict-pulse { 50% { opacity: 0.45; } }
+.edge--route { stroke: var(--accent); stroke-width: 3; stroke-dasharray: 10 7; animation: flow 1.2s linear infinite, route-in 0.5s ease-out; }
+@keyframes route-in { from { stroke-width: 0; opacity: 0; } to { stroke-width: 3; opacity: 1; } }
+.topo__legend { display: flex; flex-wrap: wrap; gap: 18px; padding: 12px 18px; border-top: 1px solid var(--line); }
+.topo__legend span { display: inline-flex; align-items: center; gap: 8px; }
+.lg { display: inline-block; width: 18px; height: 10px; border: 1.5px solid var(--line-strong); }
+.lg--decoy { border-style: dashed; }
+.lg--route { border: none; height: 3px; background: var(--accent); }
+.lg--cut { border: none; height: 2px; background: var(--dim); }
+.topo__body { display: grid; gap: 16px; }
+.topo__sub { font-family: var(--font-mono); font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 500; }
+.topo__act { display: grid; gap: 10px; justify-items: start; }

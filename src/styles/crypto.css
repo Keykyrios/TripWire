@@ -1,0 +1,113 @@
+/* ---- post-quantum security section ---- */
+
+.pq__stats {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  border-bottom: 1px solid var(--line);
+}
+.pq__stat {
+  padding: 14px 18px;
+  display: grid;
+  gap: 2px;
+  border-right: 1px solid var(--line);
+}
+.pq__stat:last-child { border-right: 0; }
+.pq__stat strong { font-size: 16px; font-weight: 700; text-transform: uppercase; }
+.pq__stat--ok strong { color: #4ade80; }
+.pq__stat--bad strong { color: var(--accent); animation: pq-pulse 1.2s ease-in-out infinite; }
+.pq__head-hash { font-size: 11px !important; word-break: break-all; text-transform: none !important; }
+@media (max-width: 720px) {
+  .pq__stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .pq__stat { border-bottom: 1px solid var(--line); }
+}
+
+.pq__tabs { padding: 14px 18px; border-bottom: 1px solid var(--line); }
+.pq__view { padding: 18px; max-height: 600px; overflow-y: auto; }
+
+/* ---- banner / badge ---- */
+.pq__banner { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+.pq__badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 4px 12px;
+  border: 1px solid var(--line-strong);
+}
+.pq__badge--ok { background: #4ade80; color: #0a0a0a; border-color: #4ade80; }
+.pq__badge--bad { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.pq__yes { color: #4ade80; }
+
+/* ---- hash chain blocks ---- */
+.chain-view { display: grid; gap: 0; }
+.chain-view__hdr { padding: 0 0 14px; border-bottom: 1px solid var(--line); margin-bottom: 2px; }
+.cb {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: 12px;
+  padding: 10px 14px;
+  border-left: 2px solid var(--line-strong);
+  border-bottom: 1px solid var(--line);
+  transition: border-color 160ms ease, background 160ms ease;
+}
+.cb:hover { background: rgba(242, 240, 234, 0.03); }
+.cb:first-of-type { border-left-color: var(--accent); }
+.cb--genesis { border-left-color: #4ade80; }
+.cb__idx { font-size: 12px; color: var(--dim); padding-top: 2px; }
+.cb__body { display: grid; gap: 3px; min-width: 0; }
+.cb__top { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.cb__hash { font-size: 12px; color: var(--accent); font-weight: 600; }
+.cb__time { font-size: 11px; color: var(--dim); margin-left: auto; }
+.cb__title { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cb__prev { font-size: 11px; color: var(--dim); }
+
+/* ---- kyber flow ---- */
+.kem-view, .dsa-view { display: grid; gap: 20px; }
+.kem__flow {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 16px;
+  align-items: center;
+  padding: 16px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+}
+.kem__party {
+  display: grid;
+  gap: 4px;
+  text-align: center;
+  padding: 12px;
+  border: 1px solid var(--line-strong);
+  background: var(--surface-2);
+}
+.kem__role { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; }
+.kem__arrow {
+  display: grid;
+  gap: 4px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--accent);
+}
+@media (max-width: 720px) {
+  .kem__flow { grid-template-columns: 1fr; }
+  .kem__arrow { padding: 8px 0; }
+}
+
+/* ---- key / signature cards ---- */
+.kem__grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.kem__card {
+  padding: 16px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+.kem__card--accent { border-color: var(--accent); }
+.kem__label { font-size: 11px; letter-spacing: 0.12em; color: var(--muted); }
+.kem__hex { font-size: 12px; word-break: break-all; line-height: 1.55; color: #c9c5ba; }
+.kem__hex--accent { color: var(--accent); font-weight: 600; }
+.kem__perf { margin-top: 4px; }
+
+@keyframes pq-pulse { 50% { opacity: 0.55; } }

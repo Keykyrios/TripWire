@@ -1,0 +1,19 @@
+.term { display: flex; flex-direction: column; height: 100%; min-height: 520px; }
+.term__body { flex: 1; overflow-y: auto; padding: 16px 18px; font-size: 13px; line-height: 1.6; background: var(--bg); max-height: 440px; min-height: 340px; cursor: text; }
+.term__line { white-space: pre-wrap; word-break: break-word; }
+.term__line--in { color: var(--ink); }
+.term__line--out { color: #c9c5ba; }
+.term__line--sys { color: var(--muted); }
+.term__line--err { color: var(--accent); }
+.term__foot { border-top: 1px solid var(--line); padding: 12px 18px 16px; display: grid; gap: 12px; }
+.term__form { display: flex; align-items: center; gap: 10px; }
+.term__prompt { font-size: 13px; color: var(--accent); white-space: nowrap; }
+.term__input { flex: 1; min-width: 0; background: transparent; border: 0; border-bottom: 1px solid var(--line-strong); color: var(--ink); font-size: 14px; padding: 8px 0; outline: none; }
+.term__input:focus { border-bottom-color: var(--accent); }
+.term__input::placeholder { color: var(--dim); }
+.term__mfa { display: grid; gap: 10px; }
+.term__chips { display: flex; gap: 8px; flex-wrap: wrap; }
+.chip { height: 28px; padding: 0 12px; background: transparent; color: var(--muted); border: 1px solid var(--line-strong); font-size: 12px; cursor: pointer; transition: color 140ms ease, border-color 140ms ease; }
+.chip:hover:not([disabled]) { color: var(--ink); border-color: var(--ink); }
+.chip[disabled] { opacity: 0.4; cursor: not-allowed; }
+.chip--hot { color: var(--accent); border-color: var(--accent); }
