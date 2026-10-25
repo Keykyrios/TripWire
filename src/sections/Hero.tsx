@@ -45,19 +45,19 @@ export default function Hero() {
             text="Let them walk into the trap."
             color="#f2f0ea"
             highlightColor="#e8452c"
-            particleSize={2.5}
-            density={4}
-            scatter={200}
+            particleSize={3}
+            density={3}
+            scatter={250}
             gatherDuration={1800}
-            fontSize="clamp(2.2rem, 6vw, 5.5rem)"
-            fontWeight={800}
+            fontSize="clamp(3rem, 10vw, 8rem)"
+            fontWeight={900}
             fontFamily="'Outfit', sans-serif"
             intro="gather"
             clickBurst={true}
-            pointerRepel={30}
-            repelRadius={100}
+            pointerRepel={40}
+            repelRadius={120}
             glow={true}
-            style={{ width: "100%", minHeight: "120px" }}
+            style={{ width: "100%", minHeight: "160px" }}
           />
         </div>
         <p className="hero__sub">
